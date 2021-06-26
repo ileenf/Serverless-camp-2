@@ -10,11 +10,16 @@ module.exports = async function (context, req) {
     let data = await resp.arrayBuffer()
     // we need to receive it as a buffer since this is an image we are receiving from the API
     // Buffer?? https://developer.mozilla.org/en-US/docs/Web/API/Blob
+
+    var base64data = Buffer.from(data).toString('base64')
+    //put what you want to turn into base64 inside "originaldata"
+    //"originaldata" will be encoded in base64.
+
     
 
 
     context.res = {
         // status: 200, /* Defaults to 200 */
-        body: responseMessage
+        body: base64data
     };
 }
