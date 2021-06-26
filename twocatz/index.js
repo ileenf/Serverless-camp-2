@@ -3,7 +3,8 @@ const fetch = require('node-fetch');
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
-    let resp = await fetch("https://cataas.com/cat/cute/says/Serverless", {
+    async function getCat(){
+        let resp = await fetch("https://cataas.com/cat/cute/says/Serverless", {
         method: 'GET'
     });
     
@@ -15,11 +16,33 @@ module.exports = async function (context, req) {
     //put what you want to turn into base64 inside "originaldata"
     //"originaldata" will be encoded in base64.
 
+    return base64data;
+
+    }
+
+    let catpic1 = await getCat();
+    let catpic2 = await getCat();
+    
+    function getNames(){
+        var names = ["Shreya", "Emily", "Fifi", "Beau", "Evelyn", "Julia", "Daniel", "Fardeen"];
+        var random_value = Math.floor(names.length * Math.random())
+        return names[random_value];
+    }
+
+    let name1 = getNames();
+    let name2 = getNames();
+
+    
+
     
 
 
     context.res = {
         // status: 200, /* Defaults to 200 */
-        body: base64data
+        body: {
+            cat1: catpic1,
+            cat2: catpic2,
+            names: [name1, name2]
+        }
     };
 }
