@@ -25,8 +25,7 @@ module.exports = async function (context, req) {
     const main_emotion = Object.keys(emotions).find(key => emotions[key] === Math.max(...objects));
 
     context.res = {
-        body: 
-            main_emotion
+        body: main_emotion
         
     };
     console.log(result)
