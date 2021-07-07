@@ -18,14 +18,15 @@ module.exports = async function (context, req) {
 
     var result = await analyzeImage(imageData);
 
-    let emotions = result.faceAttributes.emotion;
+    let emotions = result[0].faceAttributes.emotion;
 
     let objects = Object.values(emotions);
 
     const main_emotion = Object.keys(emotions).find(key => emotions[key] === Math.max(...objects));
 
+    let gifurl = await findGifs(main_emotion);
     context.res = {
-        body: main_emotion
+        body: gifurl
         
     };
     console.log(result)
@@ -35,11 +36,8 @@ module.exports = async function (context, req) {
 }
 
 async function analyzeImage(img){
-    // const subscriptionKey = process.env.SUBSCRIPTIONKEY;
-    // const uriBase = process.env.ENDPOINT + '/face/v1.0/detect';
-
-    const subscriptionKey = 'c3168e61e37749f591e59f318f475148'
-    const uriBase = 'https://faceapiserverless.cognitiveservices.azure.com/face/v1.0/detect';
+    const subscriptionKey = process.env.SUBSCRIPTIONKEY;
+    const uriBase = process.env.ENDPOINT + '/face/v1.0/detect';
 
 
 
@@ -62,4 +60,11 @@ async function analyzeImage(img){
 
     let emotionData = await resp.json();
     return emotionData;
+}
+
+async function findGifs(emotion){
+    const giphykey = process.env.giphykey;
+    let gifresponse = await fetch("https://api.giphy.com/v1/gifs/translate?api_key=" + giphykey + "&s=" + emotion);
+    let gifresp = await gifresponse.json();
+    return gifresp.data.url;
 }
