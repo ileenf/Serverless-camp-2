@@ -9,6 +9,7 @@
   "dependencies": {
     "parse-multipart": "^1.0.4",
     "querystring": "^0.2.1"
+    "morse-code-converter": "^1.0.2"
   },
   "devDependencies": {},
   "main": "index.js",
